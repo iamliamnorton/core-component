@@ -20,13 +20,14 @@
   <nav class="bg-blue-600 dark:bg-blue-700 text-white text-center p-4 space-x-4">
     <a href="#plans" class="hover:underline">Plans</a>
     <a href="#services" class="hover:underline">Services</a>
-    <a href="#contact" class="hover:underline">Check Address</a>
+    <a href="#check-address" class="hover:underline">Check Address</a>
+    <a href="#contact" class="hover:underline">Contact us</a>
   </nav>
 
   <main class="max-w-4xl mx-auto px-4 py-8 space-y-12">
 
     <!-- Address Search -->
-    <section id="contact" class="space-y-4">
+    <section id="check-address" class="space-y-4">
       <h2 class="text-2xl font-semibold text-blue-700 dark:text-blue-300">Check Service Availability</h2>
       <div class="relative">
         <input
@@ -42,12 +43,7 @@
 <!-- Insert this inside the <body> before </body> -->
 
 <!-- Map + Plan Prompt Section -->
-<section id="address-confirmation" class="space-y-6 hidden">
-  <h2 class="text-2xl font-semibold text-blue-700 dark:text-blue-300">Service Available</h2>
-  <p class="text-lg" id="selected-address">You address: <span class="font-medium"></span></p>
-  <p class="text-lg" id="loc-id">Your NBN LOC ID: <span class="font-medium"></span></p>
-
-  <div class="w-full h-64" id="map" class="rounded border border-gray-300 dark:border-gray-600"></div>
+<section id="plans" class="space-y-6">
 
   <h3 class="text-xl mt-4 font-semibold text-blue-700 dark:text-blue-300">Select a Plan:</h3>
   <div class="grid md:grid-cols-2 gap-6" id="plan-selector">
@@ -75,19 +71,29 @@
       <p>VOIP: $29/month (AUP applies)</p>
     </div>
   </div>
+</section>
+
+<section id="address-confirmation" class="space-y-6 hidden">
+  <h2 class="text-2xl font-semibold text-blue-700 dark:text-blue-300">Service Available</h2>
+  <p class="text-lg" id="selected-address">You address: <span class="font-medium"></span></p>
+  <p class="text-lg" id="loc-id">Your NBN LOC ID: <span class="font-medium"></span></p>
+
+  <div class="w-full h-64" id="map" class="rounded border border-gray-300 dark:border-gray-600"></div>
 
   <div class="mt-4 text-green-600 font-semibold hidden" id="plan-selection-success">
     ✅ Plan selected successfully!
   </div>
+  <div id="form-success" class="hidden text-green-600 font-semibold">✅ Thank you for signing up! Your information has been submitted! One of our team members will be in touch with you shortly.</div>
 
-  <form class="grid gap-4 pt-6">
-    <input type="text" placeholder="First Name" class="px-4 py-2 border rounded dark:bg-gray-800 dark:border-gray-600">
-    <input type="text" placeholder="Last Name" class="px-4 py-2 border rounded dark:bg-gray-800 dark:border-gray-600">
-    <input type="text" placeholder="Business Name" class="px-4 py-2 border rounded dark:bg-gray-800 dark:border-gray-600">
-    <input type="tel" placeholder="Phone Number" class="px-4 py-2 border rounded dark:bg-gray-800 dark:border-gray-600">
-    <input type="email" placeholder="Email Address" class="px-4 py-2 border rounded dark:bg-gray-800 dark:border-gray-600">
+  <form class="grid gap-4 pt-6" id="signup-form">
+    <input type="text" required placeholder="First Name" class="px-4 py-2 border rounded dark:bg-gray-800 dark:border-gray-600">
+    <input type="text" required placeholder="Last Name" class="px-4 py-2 border rounded dark:bg-gray-800 dark:border-gray-600">
+    <input type="text" required placeholder="Business Name" class="px-4 py-2 border rounded dark:bg-gray-800 dark:border-gray-600">
+    <input type="tel" required placeholder="Phone Number" class="px-4 py-2 border rounded dark:bg-gray-800 dark:border-gray-600">
+    <input type="email" required placeholder="Email Address" class="px-4 py-2 border rounded dark:bg-gray-800 dark:border-gray-600">
     <button type="submit" class="mt-2 px-6 py-2 bg-blue-700 text-white rounded hover:bg-blue-800">Submit</button>
   </form>
+
 </section>
 
 <script>
@@ -148,7 +154,7 @@
               document.querySelector("#loc-id span").innerText = item.id;
               document.getElementById("address-confirmation").classList.remove("hidden");
               showMap(item.latitude, item.longitude);
-              document.getElementById("address-confirmation").scrollIntoView({ behavior: 'smooth' });
+              document.getElementById("plans").scrollIntoView({ behavior: 'smooth' });
             });
             suggestions.appendChild(li);
           });
@@ -167,46 +173,22 @@
       suggestions.classList.add("hidden");
     }
   });
+
+  document.querySelector('#signup-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const form = event.target;
+    if (form.checkValidity()) {
+      form.classList.add('hidden');
+      document.getElementById('form-success').classList.remove('hidden');
+      document.getElementById('plan-selection-success').classList.add('hidden');
+    } else {
+      form.reportValidity();
+    }
+  });
 </script>
 
 
 
-    <!-- Plans -->
-    <section id="plans" class="space-y-4">
-      <h2 class="text-2xl font-semibold text-blue-700 dark:text-blue-300">Plans</h2>
-      <div class="grid md:grid-cols-2 gap-6">
-        <div class="border rounded-lg p-4 dark:border-gray-600">
-          <h3 class="text-xl font-bold">1000/400 Mbps</h3>
-          <p>Business Internet + Hosting + Email</p>
-          <p class="mt-2 font-semibold text-green-600 dark:text-green-400">$300/month</p>
-          <p>NBN TC4 + VOIP: $39/month PAYG</p>
-          <p>ESLA is available staring from $40 a month.</p>
-        </div>
-
-        <div class="border rounded-lg p-4 dark:border-gray-600">
-          <h3 class="text-xl font-bold">500/200 Mbps</h3>
-          <p>Business Internet + Hosting + Email</p>
-          <p class="mt-2 font-semibold text-green-600 dark:text-green-400">$200/month</p>
-          <p>NBN TC4 + VOIP: $39/month PAYG</p>
-          <p>ESLA is available staring from $40 a month.</p>
-        </div>
-
-        <div class="border rounded-lg p-4 dark:border-gray-600">
-          <h3 class="text-xl font-bold">250/100 Mbps</h3>
-          <p>Business Internet + Hosting</p>
-          <p class="mt-2 font-semibold text-green-600 dark:text-green-400">$150/month</p>
-          <p>ESLA is available staring from $40 a month.</p>
-        </div>
-
-        <div class="border-2 border-yellow-500 rounded-lg p-4 dark:border-yellow-400">
-          <h3 class="text-xl font-bold text-yellow-600 dark:text-yellow-300">100/40 Mbps <span class="ml-2 text-sm bg-yellow-400 dark:bg-yellow-300 text-black px-2 py-0.5 rounded">Hot Deal</span></h3>
-          <p>Business Internet + Hosting + Email</p>
-          <p class="mt-2 font-semibold text-green-600 dark:text-green-400">$99/month</p>
-          <p>VOIP: $29/month (AUP applies)</p>
-          <p>ESLA is available staring from $40 a month.</p>
-        </div>
-      </div>
-    </section>
 
     <!-- Services -->
     <section id="services">
@@ -214,43 +196,65 @@
 
       <!-- NBN -->
       <div class="mb-6">
-        <button onclick="toggle('nbn')" class="w-full text-left text-lg font-bold text-blue-700 dark:text-blue-300">➤ NBN Internet</button>
-        <div id="nbn" class="hidden mt-2 text-gray-700 dark:text-gray-300">
+        <button onclick="toggle('nbn')" class="w-full text-left text-lg font-bold text-blue-700 dark:text-blue-300">➤ NBN® Internet</button>
+        <div id="nbn" class=" mt-2 text-gray-700 dark:text-gray-300">
           <p>We offer ultra-reliable NBN internet tailored for businesses and residential users. Our plans are optimised for low latency and high-throughput use cases such as VoIP, remote work, and VPNs. Business-grade support and optional static IPs are available. All plans come with transparent pricing and no hidden fees. We interconnect with NBN directly to minimise contention and congestion.</p>
         </div>
+          <br />
+          <img src="nbn-fibre.jpg">
       </div>
 
       <!-- VOIP -->
       <div class="mb-6">
         <button onclick="toggle('voip')" class="w-full text-left text-lg font-bold text-blue-700 dark:text-blue-300">➤ VOIP</button>
-        <div id="voip" class="hidden mt-2 text-gray-700 dark:text-gray-300">
+        <div id="voip" class=" mt-2 text-gray-700 dark:text-gray-300">
           <p>Our VOIP solutions offer crystal-clear call quality with enterprise features. You can port your existing numbers or provision new ones instantly. We support desk phones, soft clients, and mobile integration. All usage is billed PAYG with monthly subscription options. Perfect for teams who need flexibility without overpaying.</p>
+
+          <br />
+          <img src="voip-guy.webp">
         </div>
       </div>
 
       <!-- Rack Space -->
       <div class="mb-6">
-        <button onclick="toggle('rack')" class="w-full text-left text-lg font-bold text-blue-700 dark:text-blue-300">➤ Rack Space</button>
-        <div id="rack" class="hidden mt-2 text-gray-700 dark:text-gray-300">
+        <button onclick="toggle('rack')" class="w-full text-left text-lg font-bold text-blue-700 dark:text-blue-300">➤ Colocation at M1 and ME1</button>
+        <div id="rack" class=" mt-2 text-gray-700 dark:text-gray-300">
           <p>Colocate your equipment in secure tier-1 data centres across Sydney, Melbourne, and Brisbane. We offer fractional rack units up to full 42U cabinets with diverse power feeds and 24/7 access. Remote hands are available for provisioning, troubleshooting, and upgrades. All racks come with redundant cooling and uplinks. Great for disaster recovery, edge compute, or staging environments.</p>
+          <br />
+          <img src="datacentre-guy.jpg">
         </div>
       </div>
 
       <!-- Cloud Consulting -->
       <div class="mb-6">
         <button onclick="toggle('cloud')" class="w-full text-left text-lg font-bold text-blue-700 dark:text-blue-300">➤ Cloud Consulting</button>
-        <div id="cloud" class="hidden mt-2 text-gray-700 dark:text-gray-300">
+        <div id="cloud" class=" mt-2 text-gray-700 dark:text-gray-300">
           <p>We help companies adopt, scale, and secure their cloud infrastructure. Whether you're just getting started or need help with AWS, Azure, or GCP — we design efficient, automated, and cost-effective solutions. Our specialties include infrastructure-as-code, hybrid networking, cloud-native deployments, and platform security. Engage us for one-off audits or full migration projects.</p>
         </div>
       </div>
     </section>
+
+  <section id="contact" class="space-y-6 ">
+    <h2 class="text-2xl font-semibold text-blue-700 dark:text-blue-300 mb-4">Contact Us</h2>
+
+    <form class="grid gap-4 pt-6" id="signup-form">
+      <input type="text" required placeholder="First Name" class="px-4 py-2 border rounded dark:bg-gray-800 dark:border-gray-600">
+      <input type="text" required placeholder="Last Name" class="px-4 py-2 border rounded dark:bg-gray-800 dark:border-gray-600">
+      <input type="text" required placeholder="Business Name" class="px-4 py-2 border rounded dark:bg-gray-800 dark:border-gray-600">
+      <input type="tel" required placeholder="Phone Number" class="px-4 py-2 border rounded dark:bg-gray-800 dark:border-gray-600">
+      <input type="email" required placeholder="Email Address" class="px-4 py-2 border rounded dark:bg-gray-800 dark:border-gray-600">
+      <button type="submit" class="mt-2 px-6 py-2 bg-blue-700 text-white rounded hover:bg-blue-800">Submit</button>
+    </form>
+
+  </section>
   </main>
 
 
 <!-- Inside your fetch success block -->
 
+
   <footer class="bg-blue-700 dark:bg-blue-800 text-white text-center py-4">
-    <p>&copy; 2025 Core Component. All rights reserved.</p>
+    <p>&copy; 2025 Core Component ABN 55639211902. All rights reserved.</p>
   </footer>
 
   <script>
@@ -316,8 +320,7 @@
               document.querySelector("#selected-address span").innerText = item.formattedAddress;
               document.getElementById("address-confirmation").classList.remove("hidden");
               showMap(item.latitude, item.longitude);
-              document.getElementById("address-confirmation").scrollIntoView({ behavior: 'smooth' });
-              document.getElementById("plans").classList.add("hidden");
+              document.getElementById("plans").scrollIntoView({ behavior: 'smooth' });
             });
             suggestions.appendChild(li);
           });
@@ -336,7 +339,9 @@
       suggestions.classList.add("hidden");
     }
   });
+
 </script>
+
 
 </body>
 </html>
