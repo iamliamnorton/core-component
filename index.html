@@ -1,17 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Core Component</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = { darkMode: 'media' };
-  </script>
 </head>
-<body class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white">
+<body class="bg-white text-gray-900">
 
-  <header class="bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white p-6 text-center flex flex-col items-center">
+  <header class="bg-gray-100 text-gray-900 p-6 text-center flex flex-col items-center">
    <img src="core-component-logo.png" alt="Core Component Logo" class="h-28 w-auto mb-2">
     <p class="mt-2 font-semibold">Trusted Australian Technology Partner: MSP & Software Development Experts</p>
     <p class="text-sm mt-2">Business Internet, Hosting, VOIP, Infrastructure & Custom Solutions</p>
@@ -28,243 +25,138 @@
 
     <!-- Address Search -->
     <section id="check-address" class="space-y-4">
-      <h2 class="text-2xl font-semibold text-[#163244] dark:text-blue-300">Check Service Availability</h2>
+      <h2 class="text-2xl font-semibold text-[#163244]">Check Service Availability</h2>
       <div class="relative">
         <input
           type="text"
           id="address-input"
           placeholder="Enter your address..."
-          class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-800 dark:text-white"
+          class="w-full px-4 py-2 border border-gray-300 rounded-md bg-white text-gray-900"
           />
-        <ul id="suggestions" class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md hidden"></ul>
+        <ul id="suggestions" class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md hidden"></ul>
       </div>
     </section>
 
-<!-- Insert this inside the <body> before </body> -->
+    <!-- Map + Plan Prompt Section -->
+    <section id="plans" class="space-y-6">
+      <h3 class="text-xl mt-4 font-semibold text-[#163244]">Select a Plan:</h3>
+      <div class="grid md:grid-cols-2 gap-6" id="plan-selector">
+        <div class="border rounded-lg p-4 cursor-pointer hover:ring-2 hover:ring-blue-400" onclick="selectPlan(this, '1000/400 Mbps')">
+          <h3 class="text-xl font-bold">1000/400 Mbps</h3>
+          <p>Business Internet + Hosting + Email</p>
+          <p class="mt-2 font-semibold text-green-600">$300/month</p>
+          <p>NBN TC4 + VOIP: $39/month PAYG</p>
+        </div>
+        <div class="border rounded-lg p-4 cursor-pointer hover:ring-2 hover:ring-blue-400" onclick="selectPlan(this, '500/200 Mbps')">
+          <h3 class="text-xl font-bold">500/200 Mbps</h3>
+          <p>Business Internet + Hosting + Email</p>
+          <p class="mt-2 font-semibold text-green-600">$200/month</p>
+          <p>NBN TC4 + VOIP: $39/month PAYG</p>
+        </div>
+        <div class="border rounded-lg p-4 cursor-pointer hover:ring-2 hover:ring-blue-400" onclick="selectPlan(this, '250/100 Mbps')">
+          <h3 class="text-xl font-bold">250/100 Mbps</h3>
+          <p>Business Internet + Hosting</p>
+          <p class="mt-2 font-semibold text-green-600">$150/month</p>
+        </div>
+        <div class="border-2 border-yellow-500 rounded-lg p-4 cursor-pointer hover:ring-2 hover:ring-blue-400" onclick="selectPlan(this, '100/40 Mbps')">
+          <h3 class="text-xl font-bold text-yellow-600">100/40 Mbps <span class="ml-2 text-sm bg-yellow-400 text-black px-2 py-0.5 rounded">Hot Deal</span></h3>
+          <p>Business Internet + Hosting + Email</p>
+          <p class="mt-2 font-semibold text-green-600">$99/month</p>
+          <p>VOIP: $29/month (AUP applies)</p>
+        </div>
+      </div>
+    </section>
 
-<!-- Map + Plan Prompt Section -->
-<section id="plans" class="space-y-6">
+    <section id="address-confirmation" class="space-y-6 hidden">
+      <h2 class="text-2xl font-semibold text-[#163244]">Service Available</h2>
+      <p class="text-lg" id="selected-address">You address: <span class="font-medium"></span></p>
+      <p class="text-lg" id="loc-id">Your NBN LOC ID: <span class="font-medium"></span></p>
 
-  <h3 class="text-xl mt-4 font-semibold text-[#163244] dark:text-blue-300">Select a Plan:</h3>
-  <div class="grid md:grid-cols-2 gap-6" id="plan-selector">
-    <div class="border rounded-lg p-4 dark:border-gray-600 cursor-pointer hover:ring-2 hover:ring-blue-400" onclick="selectPlan(this, '1000/400 Mbps')">
-      <h3 class="text-xl font-bold">1000/400 Mbps</h3>
-      <p>Business Internet + Hosting + Email</p>
-      <p class="mt-2 font-semibold text-green-600 dark:text-green-400">$300/month</p>
-      <p>NBN TC4 + VOIP: $39/month PAYG</p>
-    </div>
-    <div class="border rounded-lg p-4 dark:border-gray-600 cursor-pointer hover:ring-2 hover:ring-blue-400" onclick="selectPlan(this, '500/200 Mbps')">
-      <h3 class="text-xl font-bold">500/200 Mbps</h3>
-      <p>Business Internet + Hosting + Email</p>
-      <p class="mt-2 font-semibold text-green-600 dark:text-green-400">$200/month</p>
-      <p>NBN TC4 + VOIP: $39/month PAYG</p>
-    </div>
-    <div class="border rounded-lg p-4 dark:border-gray-600 cursor-pointer hover:ring-2 hover:ring-blue-400" onclick="selectPlan(this, '250/100 Mbps')">
-      <h3 class="text-xl font-bold">250/100 Mbps</h3>
-      <p>Business Internet + Hosting</p>
-      <p class="mt-2 font-semibold text-green-600 dark:text-green-400">$150/month</p>
-    </div>
-    <div class="border-2 border-yellow-500 rounded-lg p-4 dark:border-yellow-400 cursor-pointer hover:ring-2 hover:ring-blue-400" onclick="selectPlan(this, '100/40 Mbps')">
-      <h3 class="text-xl font-bold text-yellow-600 dark:text-yellow-300">100/40 Mbps <span class="ml-2 text-sm bg-yellow-400 dark:bg-yellow-300 text-black px-2 py-0.5 rounded">Hot Deal</span></h3>
-      <p>Business Internet + Hosting + Email</p>
-      <p class="mt-2 font-semibold text-green-600 dark:text-green-400">$99/month</p>
-      <p>VOIP: $29/month (AUP applies)</p>
-    </div>
-  </div>
-</section>
+      <div class="w-full h-64" id="map" class="rounded border border-gray-300"></div>
 
-<section id="address-confirmation" class="space-y-6 hidden">
-  <h2 class="text-2xl font-semibold text-[#163244] dark:text-blue-300">Service Available</h2>
-  <p class="text-lg" id="selected-address">You address: <span class="font-medium"></span></p>
-  <p class="text-lg" id="loc-id">Your NBN LOC ID: <span class="font-medium"></span></p>
+      <div class="mt-4 text-green-600 font-semibold hidden" id="plan-selection-success">
+        ✅ Plan selected successfully!
+      </div>
+      <div id="form-success" class="hidden text-green-600 font-semibold">✅ Thank you for signing up! Your information has been submitted! One of our team members will be in touch with you shortly.</div>
 
-  <div class="w-full h-64" id="map" class="rounded border border-gray-300 dark:border-gray-600"></div>
-
-  <div class="mt-4 text-green-600 font-semibold hidden" id="plan-selection-success">
-    ✅ Plan selected successfully!
-  </div>
-  <div id="form-success" class="hidden text-green-600 font-semibold">✅ Thank you for signing up! Your information has been submitted! One of our team members will be in touch with you shortly.</div>
-
-  <form class="grid gap-4 pt-6" id="signup-form">
-    <input type="text" required placeholder="First Name" class="px-4 py-2 border rounded dark:bg-gray-800 dark:border-gray-600">
-    <input type="text" required placeholder="Last Name" class="px-4 py-2 border rounded dark:bg-gray-800 dark:border-gray-600">
-    <input type="text" required placeholder="Business Name" class="px-4 py-2 border rounded dark:bg-gray-800 dark:border-gray-600">
-    <input type="tel" required placeholder="Phone Number" class="px-4 py-2 border rounded dark:bg-gray-800 dark:border-gray-600">
-    <input type="email" required placeholder="Email Address" class="px-4 py-2 border rounded dark:bg-gray-800 dark:border-gray-600">
-    <button type="submit" class="mt-2 px-6 py-2 bg-blue-700 text-white rounded hover:bg-blue-800">Submit</button>
-  </form>
-
-</section>
-
-<script>
-  let selectedCoords = null;
-  function selectPlan(element, plan) {
-    document.getElementById("plan-selection-success").classList.remove("hidden");
-    document.getElementById("plan-selection-success").innerText = `✅ You selected: ${plan}`;
-
-    const allPlans = document.querySelectorAll("#plan-selector > div");
-    allPlans.forEach(div => div.classList.remove("ring", "ring-blue-400"));
-    element.classList.add("ring", "ring-blue-400");
-  }
-
-  function showMap(lat, lng) {
-    const mapFrame = document.getElementById("map");
-    mapFrame.innerHTML = `<iframe
-      width="100%"
-      height="100%"
-      style="border:0"
-      loading="lazy"
-      allowfullscreen
-      referrerpolicy="no-referrer-when-downgrade"
-      src="https://www.google.com/maps/embed/v1/view?key=AIzaSyDsKecK3wBKu9TrbB0VhiTUi8CLvrzi_gY&center=${lat},${lng}&zoom=16">
-    </iframe>`;
-  }
-
-  const input = document.getElementById("address-input");
-  const suggestions = document.getElementById("suggestions");
-  let timeout = null;
-
-  input.addEventListener("input", () => {
-    const query = input.value.trim();
-    clearTimeout(timeout);
-    if (query.length < 3) {
-      suggestions.innerHTML = "";
-      suggestions.classList.add("hidden");
-      return;
-    }
-
-    timeout = setTimeout(() => {
-      fetch(`https://corsproxy.io/?url=https://proteus.neptune.net.au/api/v1/places/autocomplete?query=${encodeURIComponent(query)}`)
-        .then(res => res.json())
-        .then(data => {
-          suggestions.innerHTML = "";
-          if (!data.suggestions || data.suggestions.length === 0) {
-            suggestions.classList.add("hidden");
-            return;
-          }
-
-          data.suggestions.forEach(item => {
-            const li = document.createElement("li");
-            li.textContent = item.formattedAddress;
-            li.className = "px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer";
-            li.addEventListener("click", () => {
-              input.value = item.formattedAddress;
-              suggestions.classList.add("hidden");
-              document.querySelector("#selected-address span").innerText = item.formattedAddress;
-              document.querySelector("#loc-id span").innerText = item.id;
-              document.getElementById("address-confirmation").classList.remove("hidden");
-              showMap(item.latitude, item.longitude);
-              document.getElementById("plans").scrollIntoView({ behavior: 'smooth' });
-            });
-            suggestions.appendChild(li);
-          });
-
-          suggestions.classList.remove("hidden");
-        })
-        .catch(error => {
-          console.error("Error fetching suggestions:", error);
-          suggestions.classList.add("hidden");
-        });
-    }, 300);
-  });
-
-  document.addEventListener("click", (e) => {
-    if (!e.target.closest("#address-input") && !e.target.closest("#suggestions")) {
-      suggestions.classList.add("hidden");
-    }
-  });
-
-  document.querySelector('#signup-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const form = event.target;
-    if (form.checkValidity()) {
-      form.classList.add('hidden');
-      document.getElementById('form-success').classList.remove('hidden');
-      document.getElementById('plan-selection-success').classList.add('hidden');
-    } else {
-      form.reportValidity();
-    }
-  });
-</script>
-
-
-
+      <form class="grid gap-4 pt-6" id="signup-form">
+        <input type="text" required placeholder="First Name" class="px-4 py-2 border rounded bg-white">
+        <input type="text" required placeholder="Last Name" class="px-4 py-2 border rounded bg-white">
+        <input type="text" required placeholder="Business Name" class="px-4 py-2 border rounded bg-white">
+        <input type="tel" required placeholder="Phone Number" class="px-4 py-2 border rounded bg-white">
+        <input type="email" required placeholder="Email Address" class="px-4 py-2 border rounded bg-white">
+        <button type="submit" class="mt-2 px-6 py-2 bg-blue-700 text-white rounded hover:bg-blue-800">Submit</button>
+      </form>
+    </section>
 
     <!-- Services -->
     <section id="services">
-      <h2 class="text-2xl font-semibold text-[#163244] dark:text-blue-300 mb-4">Our Services</h2>
+      <h2 class="text-2xl font-semibold text-[#163244] mb-4">Our Services</h2>
 
       <!-- NBN -->
       <div class="mb-6">
-        <button onclick="toggle('nbn')" class="w-full text-left text-lg font-bold text-[#163244] dark:text-blue-300">➤ NBN® Internet</button>
-        <div id="nbn" class=" mt-2 text-gray-700 dark:text-gray-300">
+        <button onclick="toggle('nbn')" class="w-full text-left text-lg font-bold text-[#163244]">➤ NBN® Internet</button>
+        <div id="nbn" class="mt-2 text-gray-700">
           <p>We offer ultra-reliable NBN internet tailored for businesses and residential users. Our plans are optimised for low latency and high-throughput use cases such as VoIP, remote work, and VPNs. Business-grade support and optional static IPs are available. All plans come with transparent pricing and no hidden fees. We interconnect with NBN directly to minimise contention and congestion.</p>
           <br />
-          <img src="nbn-fibre.jpg" class="w-full max-w-2xl mx-auto rounded-lg border border-gray-200 dark:border-gray-700 my-4 object-cover">
+          <img src="nbn-fibre.jpg" class="w-full max-w-2xl mx-auto rounded-lg border border-gray-200 my-4 object-cover">
         </div>
       </div>
 
       <!-- VOIP -->
       <div class="mb-6">
-        <button onclick="toggle('voip')" class="w-full text-left text-lg font-bold text-[#163244] dark:text-blue-300">➤ VOIP</button>
-        <div id="voip" class=" mt-2 text-gray-700 dark:text-gray-300">
+        <button onclick="toggle('voip')" class="w-full text-left text-lg font-bold text-[#163244]">➤ VOIP</button>
+        <div id="voip" class="mt-2 text-gray-700">
           <p>Our VOIP solutions offer crystal-clear call quality with enterprise features. You can port your existing numbers or provision new ones instantly. We support desk phones, soft clients, and mobile integration. All usage is billed PAYG with monthly subscription options. Perfect for teams who need flexibility without overpaying.</p>
-
           <br />
-          <img src="voip-guy.webp" class="w-full max-w-2xl mx-auto rounded-lg border border-gray-200 dark:border-gray-700 my-4 object-cover">
+          <img src="voip-guy.webp" class="w-full max-w-2xl mx-auto rounded-lg border border-gray-200 my-4 object-cover">
         </div>
       </div>
 
       <!-- Rack Space -->
       <div class="mb-6">
-        <button onclick="toggle('rack')" class="w-full text-left text-lg font-bold text-[#163244] dark:text-blue-300">➤ Colocation at M1 and ME1</button>
-        <div id="rack" class=" mt-2 text-gray-700 dark:text-gray-300">
+        <button onclick="toggle('rack')" class="w-full text-left text-lg font-bold text-[#163244]">➤ Colocation at M1 and ME1</button>
+        <div id="rack" class="mt-2 text-gray-700">
           <p>Colocate your equipment in secure tier-1 data centres across Sydney, Melbourne, and Brisbane. We offer fractional rack units up to full 42U cabinets with diverse power feeds and 24/7 access. Remote hands are available for provisioning, troubleshooting, and upgrades. All racks come with redundant cooling and uplinks. Great for disaster recovery, edge compute, or staging environments.</p>
           <br />
-          <img src="datacentre-guy.jpg" class="w-full max-w-2xl mx-auto rounded-lg border border-gray-200 dark:border-gray-700 my-4 object-cover">
+          <img src="datacentre-guy.jpg" class="w-full max-w-2xl mx-auto rounded-lg border border-gray-200 my-4 object-cover">
         </div>
       </div>
 
       <!-- Cloud Consulting -->
       <div class="mb-6">
-        <button onclick="toggle('cloud')" class="w-full text-left text-lg font-bold text-[#163244] dark:text-blue-300">➤ Cloud Consulting</button>
-        <div id="cloud" class=" mt-2 text-gray-700 dark:text-gray-300">
+        <button onclick="toggle('cloud')" class="w-full text-left text-lg font-bold text-[#163244]">➤ Cloud Consulting</button>
+        <div id="cloud" class="mt-2 text-gray-700">
           <p>We help companies adopt, scale, and secure their cloud infrastructure. Whether you're just getting started or need help with AWS, Azure, or GCP — we design efficient, automated, and cost-effective solutions. Our specialties include infrastructure-as-code, hybrid networking, cloud-native deployments, and platform security. Our DevOps expertise ensures smooth CI/CD implementation and deployment. Engage us for one-off audits or full migration projects.</p>
         </div>
       </div>
 
       <!-- Software Development -->
       <div class="mb-6">
-        <button onclick="toggle('dev')" class="w-full text-left text-lg font-bold text-[#163244] dark:text-blue-300">➤ Software Development</button>
-        <div id="dev" class="mt-2 text-gray-700 dark:text-gray-300">
+        <button onclick="toggle('dev')" class="w-full text-left text-lg font-bold text-[#163244]">➤ Software Development</button>
+        <div id="dev" class="mt-2 text-gray-700">
           <p>We deliver expert software development services tailored to your business needs, specializing in custom application development, system integration, and digital transformation projects. Our team brings extensive experience in building scalable, cloud-native applications and comprehensive API solutions. Following agile methodologies, we ensure transparent communication and timely delivery. Whether you need a dedicated development team or specific project expertise, we provide flexible engagement models to suit your requirements.</p>
           <br />
-          <img src="dev-team.jpg" class="w-full max-w-2xl mx-auto rounded-lg border border-gray-200 dark:border-gray-700 my-4 object-cover">
+          <img src="dev-team.jpg" class="w-full max-w-2xl mx-auto rounded-lg border border-gray-200 my-4 object-cover">
         </div>
       </div>
     </section>
 
-  <section id="contact" class="space-y-6 ">
-    <h2 class="text-2xl font-semibold text-[#163244] dark:text-blue-300 mb-4">Contact Us</h2>
+    <section id="contact" class="space-y-6">
+      <h2 class="text-2xl font-semibold text-[#163244] mb-4">Contact Us</h2>
 
-    <form class="grid gap-4 pt-6" id="signup-form">
-      <input type="text" required placeholder="First Name" class="px-4 py-2 border rounded dark:bg-gray-800 dark:border-gray-600">
-      <input type="text" required placeholder="Last Name" class="px-4 py-2 border rounded dark:bg-gray-800 dark:border-gray-600">
-      <input type="text" required placeholder="Business Name" class="px-4 py-2 border rounded dark:bg-gray-800 dark:border-gray-600">
-      <input type="tel" required placeholder="Phone Number" class="px-4 py-2 border rounded dark:bg-gray-800 dark:border-gray-600">
-      <input type="email" required placeholder="Email Address" class="px-4 py-2 border rounded dark:bg-gray-800 dark:border-gray-600">
-      <button type="submit" class="mt-2 px-6 py-2 bg-blue-700 text-white rounded hover:bg-blue-800">Submit</button>
-    </form>
-
-  </section>
+      <form class="grid gap-4 pt-6" id="signup-form">
+        <input type="text" required placeholder="First Name" class="px-4 py-2 border rounded bg-white">
+        <input type="text" required placeholder="Last Name" class="px-4 py-2 border rounded bg-white">
+        <input type="text" required placeholder="Business Name" class="px-4 py-2 border rounded bg-white">
+        <input type="tel" required placeholder="Phone Number" class="px-4 py-2 border rounded bg-white">
+        <input type="email" required placeholder="Email Address" class="px-4 py-2 border rounded bg-white">
+        <button type="submit" class="mt-2 px-6 py-2 bg-blue-700 text-white rounded hover:bg-blue-800">Submit</button>
+      </form>
+    </section>
   </main>
 
-
-<!-- Inside your fetch success block -->
-
-
-
-  <footer class="bg-gray-700 dark:bg-gray-800 text-white text-center py-4 space-y-2">
+  <footer class="bg-gray-700 text-white text-center py-4 space-y-2">
     <p>&copy; 2025 Core Component ABN 55639211902. All rights reserved.</p>
     <nav class="space-x-4">
       <a href="#services" class="underline hover:text-gray-200">Services</a>
@@ -275,11 +167,99 @@
   </footer>
 
   <script>
+    let selectedCoords = null;
+    function selectPlan(element, plan) {
+      document.getElementById("plan-selection-success").classList.remove("hidden");
+      document.getElementById("plan-selection-success").innerText = `✅ You selected: ${plan}`;
+
+      const allPlans = document.querySelectorAll("#plan-selector > div");
+      allPlans.forEach(div => div.classList.remove("ring", "ring-blue-400"));
+      element.classList.add("ring", "ring-blue-400");
+    }
+
+    function showMap(lat, lng) {
+      const mapFrame = document.getElementById("map");
+      mapFrame.innerHTML = `<iframe
+        width="100%"
+        height="100%"
+        style="border:0"
+        loading="lazy"
+        allowfullscreen
+        referrerpolicy="no-referrer-when-downgrade"
+        src="https://www.google.com/maps/embed/v1/view?key=AIzaSyDsKecK3wBKu9TrbB0VhiTUi8CLvrzi_gY&center=${lat},${lng}&zoom=16">
+      </iframe>`;
+    }
+
+    const input = document.getElementById("address-input");
+    const suggestions = document.getElementById("suggestions");
+    let timeout = null;
+
+    input.addEventListener("input", () => {
+      const query = input.value.trim();
+      clearTimeout(timeout);
+      if (query.length < 3) {
+        suggestions.innerHTML = "";
+        suggestions.classList.add("hidden");
+        return;
+      }
+
+      timeout = setTimeout(() => {
+        fetch(`https://corsproxy.io/?url=https://proteus.neptune.net.au/api/v1/places/autocomplete?query=${encodeURIComponent(query)}`)
+          .then(res => res.json())
+          .then(data => {
+            suggestions.innerHTML = "";
+            if (!data.suggestions || data.suggestions.length === 0) {
+              suggestions.classList.add("hidden");
+              return;
+            }
+
+            data.suggestions.forEach(item => {
+              const li = document.createElement("li");
+              li.textContent = item.formattedAddress;
+              li.className = "px-4 py-2 hover:bg-gray-100 cursor-pointer";
+              li.addEventListener("click", () => {
+                input.value = item.formattedAddress;
+                suggestions.classList.add("hidden");
+                document.querySelector("#selected-address span").innerText = item.formattedAddress;
+                document.querySelector("#loc-id span").innerText = item.id;
+                document.getElementById("address-confirmation").classList.remove("hidden");
+                showMap(item.latitude, item.longitude);
+                document.getElementById("plans").scrollIntoView({ behavior: 'smooth' });
+              });
+              suggestions.appendChild(li);
+            });
+
+            suggestions.classList.remove("hidden");
+          })
+          .catch(error => {
+            console.error("Error fetching suggestions:", error);
+            suggestions.classList.add("hidden");
+          });
+      }, 300);
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest("#address-input") && !e.target.closest("#suggestions")) {
+        suggestions.classList.add("hidden");
+      }
+    });
+
+    document.querySelector('#signup-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const form = event.target;
+      if (form.checkValidity()) {
+        form.classList.add('hidden');
+        document.getElementById('form-success').classList.remove('hidden');
+        document.getElementById('plan-selection-success').classList.add('hidden');
+      } else {
+        form.reportValidity();
+      }
+    });
+
     function toggle(id) {
       const el = document.getElementById(id);
       el.classList.toggle('hidden');
     }
   </script>
-
 </body>
 </html>
